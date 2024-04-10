@@ -1,7 +1,6 @@
 package com.example.lab_2.fragment
 
 import android.os.Bundle
-import retrofit2.Call
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -9,34 +8,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.lab_2.adapter.DragonAdapter
-import com.example.lab_2.databinding.FragmentDragonListBinding
-import com.example.lab_2.model.Dragon
+import com.example.lab_2.adapter.AnimalAdapter
+import com.example.lab_2.databinding.FragmentAnimalListBinding
+import com.example.lab_2.model.Animal
+import com.example.lab_2.network.AnimalService
 import com.example.lab_2.network.ApiClient
-import com.example.lab_2.network.DragonService
-import okhttp3.Callback
-import okhttp3.Response
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class DragonListFragment : Fragment() {
+class AnimalListFragment : Fragment() {
 
-    private var _binding: FragmentDragonListBinding? = null
+    private var _binding: FragmentAnimalListBinding? = null
     private val binding get() = _binding!!
 
-
-    private val adapter: DragonAdapter by lazy {
-        DragonAdapter()
+    private val adapter: AnimalAdapter by lazy {
+        AnimalAdapter()
     }
 
-    private val dragonService: DragonService by lazy {
+    private val animalSevice: AnimalService by lazy {
         ApiClient.instance
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDragonListBinding.inflate(inflater, container, false)
+        _binding = FragmentAnimalListBinding
+            .inflate(inflater, container, false)
         return binding.root
     }
 
@@ -48,27 +47,32 @@ class DragonListFragment : Fragment() {
     }
 
     private fun setupUI() {
-
+        binding.animalList.adapter = adapter
     }
 
+
     private fun fetchData(query: String) {
-        dragonService.fetchDragonList(query).enqueue(object : Callback<List<Dragon>> {
+        animalSevice.fetchAnimalList(query).enqueue(object : Callback<List<Animal>> {
             override fun onResponse(
-                call: Call<List<Dragon>>,
-                response: Response<List<Dragon>>
+                call: Call<List<Animal>>,
+                response: Response<List<Animal>>
             ) {
                 if (response.isSuccessful) {
+                    println("HttpResponse: True")
                     adapter.submitList(response.body())
                 } else {
+                    println("HttpResponse: False")
                     showError("Failed to fetch data: ${response.code()}")
                 }
             }
 
-            override fun onFailure(call: Call<List<Dragon>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Animal>>, t: Throwable) {
                 showError("Network error: ${t.message}")
             }
         })
+        println("HttpResponse: 2+2")
     }
+
 
     private fun setupSearch() {
         binding.search.addTextChangedListener(object : TextWatcher {

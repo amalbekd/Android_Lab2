@@ -1,15 +1,13 @@
 package com.example.lab_2
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.lab_2.adapter.DragonAdapter
+import androidx.appcompat.app.AppCompatActivity
 import com.example.lab_2.databinding.ActivityMainBinding
-import com.example.lab_2.fragment.DragonListFragment
+import com.example.lab_2.fragment.AnimalListFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -18,10 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.fragment_container, DragonListFragment())
+            .add(R.id.fragment_container_view, AnimalListFragment())
             .commit()
     }
-
-
-
 }

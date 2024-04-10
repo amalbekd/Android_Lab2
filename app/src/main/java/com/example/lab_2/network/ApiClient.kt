@@ -5,11 +5,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-    private val retrofit = Retrofit.Builder()
+    private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://api.api-ninjas.com/v1/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val instance: DragonService = retrofit.create(DragonService::class.java)
-
+    val instance: AnimalService = retrofit.create(AnimalService::class.java)
 }
